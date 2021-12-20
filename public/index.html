@@ -1,0 +1,64 @@
+
+<style>
+  #apple-pay-button {
+    display: none;
+    background-color: black;
+    background-image: -webkit-named-image(apple-pay-logo-white);
+    background-size: 100% 100%;
+    background-origin: content-box;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 44px;
+    padding: 10px 0;
+    border-radius: 10px;
+  }
+</style>
+<button id="apple-pay-button"></button>
+
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+<script>
+
+  Stripe.setPublishableKey('pk_test_51K8me8SI5PhiMslaBi6U0RKWMT90gXWXSJguJIVNPYvw9LagikIXcWz8D81FOdq2Yr00koI1v5SS82ZlR3nAcFW5005DGsWqYx');
+
+  Stripe.applePay.checkAvailability(function(available) {
+    if (available) {
+      document.getElementById('apple-pay-button').style.display = 'block';
+    }
+  });
+
+  document.getElementById('apple-pay-button').addEventListener('click', beginApplePay);
+
+  function beginApplePay() {
+    var paymentRequest = {
+      countryCode: 'US',
+      currencyCode: 'USD',
+      total: {
+        label: 'Rocketship Inc',
+        amount: '19.99'
+      }
+    };
+
+    var session = Stripe.applePay.buildSession(paymentRequest,
+      function(result, completion) {
+
+      $.post('/charges', { token: result.token.id }).done(function() {
+        completion(ApplePaySession.STATUS_SUCCESS);
+        // You can now redirect the user to a receipt page, and so on
+        window.location.href = '/success.html';
+      }).fail(function() {
+        completion(ApplePaySession.STATUS_FAILURE);
+      });
+
+    }, function(error) {
+      console.log(error.message);
+    });
+
+    session.oncancel = function() {
+      console.log("User hit the cancel button in the payment window");
+    };
+
+    session.begin();
+  };
+</script>
+
