@@ -21,7 +21,7 @@ express()
             product_data: {
               name: 'T-shirt',
             },
-            unit_amount: 10,
+            unit_amount: 1000,
           },
           quantity: 1,
         },
