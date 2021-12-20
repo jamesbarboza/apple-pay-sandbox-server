@@ -2,6 +2,9 @@
   "name": "apple-pay-sandbox-server",
   "version": "0.0.1",
   "description": "A sample Node.js app using Express 4",
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "ejs": "^3.1.6",
     "express": "^4.17.2"
