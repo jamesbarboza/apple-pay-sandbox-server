@@ -27,8 +27,8 @@ express()
         },
       ],
       mode: 'payment',
-      success_url: 'https://apple-pay-sandbox.herokuapp.com/success',
-      cancel_url: 'https://apple-pay-sandbox.herokuapp.com/cancel',
+      success_url: 'https://apple-pay-sandbox.herokuapp.com/success.html',
+      cancel_url: 'https://apple-pay-sandbox.herokuapp.com/cancel.html',
     });
 
     res.redirect(303, session.url);
